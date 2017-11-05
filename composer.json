@@ -18,7 +18,10 @@
     "rdlowrey/auryn": "^1.4",
     "mustache/mustache": "^2.12",
     "twig/twig": "~1.0",
-    "erusev/parsedown": "^1.6"
+    "erusev/parsedown": "^1.6",
+    "daylerees/kurenai": "^2.0",
+    "michelf/php-markdown": "^1.7",
+    "symfony/var-dumper": "^3.3"
   },
   "autoload": {
     "psr-4": {

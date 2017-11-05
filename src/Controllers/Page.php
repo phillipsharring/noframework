@@ -4,8 +4,8 @@ namespace Example\Controllers;
 
 use Http\Response;
 use Example\Template\FrontendRenderer;
-use Example\Page\PageReader;
 use Example\Page\InvalidPageException;
+use Example\Page\Readers\MetadataPageReader;
 
 class Page
 {
@@ -13,7 +13,7 @@ class Page
     private $renderer;
     private $pageReader;
 
-    public function __construct(Response $response, FrontendRenderer $renderer, PageReader $pageReader)
+    public function __construct(Response $response, FrontendRenderer $renderer, MetadataPageReader $pageReader)
     {
         $this->response = $response;
         $this->renderer = $renderer;

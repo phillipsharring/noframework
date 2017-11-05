@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace Example\Page;
+namespace Example\Page\Readers;
+
+use Example\Page\Parsers\Parser;
 
 class FilePageReader implements PageReader
 {
@@ -21,6 +23,6 @@ class FilePageReader implements PageReader
             throw new InvalidPageException($slug);
         }
 
-        return $this->parser->parse(file_get_contents($path));
+        return $this->parser->parse($path);
     }
 }

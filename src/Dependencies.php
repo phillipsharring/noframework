@@ -2,8 +2,6 @@
 
 $injector = new \Auryn\Injector;
 
-$injector->alias('Http\Request', 'Http\HttpRequest');
-$injector->share('Http\HttpRequest');
 $injector->define('Http\HttpRequest', [
     ':get' => $_GET,
     ':post' => $_POST,
@@ -11,6 +9,8 @@ $injector->define('Http\HttpRequest', [
     ':files' => $_FILES,
     ':server' => $_SERVER,
 ]);
+$injector->alias('Http\Request', 'Http\HttpRequest');
+$injector->share('Http\HttpRequest');
 
 $injector->alias('Http\Response', 'Http\HttpResponse');
 $injector->share('Http\HttpResponse');
@@ -30,25 +30,28 @@ $injector->delegate('Twig_Environment', function () use ($injector) {
     $twig = new Twig_Environment($loader);
     return $twig;
 });
-
 $injector->alias('Example\Template\Renderer', 'Example\Template\TwigRenderer');
 $injector->alias('Example\Template\FrontendRenderer', 'Example\Template\FrontendTwigRenderer');
-
-$injector->define('Example\Page\FilePageReader', [
-    ':pageFolder' => __DIR__ . '/../pages',
-]);
-$injector->alias('Example\Page\PageReader', 'Example\Page\FilePageReader');
-$injector->share('Example\Page\FilePageReader');
 
 $injector->alias('Example\Menu\MenuReader', 'Example\Menu\ArrayMenuReader');
 $injector->share('Example\Menu\ArrayMenuReader');
 
-$injector->delegate('Parsedown', function () use ($injector) {
-    $parsedown = new Parsedown();
-    return $parsedown;
-});
+$injector->define('Example\Page\Readers\MarkdownPageReader', [
+    ':pageFolder' => __DIR__ . '/../pages',
+]);
+$injector->alias('Example\Page\Readers\MetadataPageReader', 'Example\Page\Readers\MarkdownPageReader');
+$injector->share('Example\Page\Readers\MarkdownPageReader');
 
-$injector->alias('Example\Page\Parser', 'Example\Page\ParsedownParser');
-$injector->share('Example\Page\ParsedownParser');
+$injector->delegate('Example\Page\Parsers\KurenaiParser', function () use ($injector) {
+    $pageFolder = __DIR__ . '/../pages';
+    $kurenai = new Kurenai\Parser(
+        new Kurenai\Parsers\Metadata\JsonParser,
+        new Kurenai\Parsers\Content\MarkdownParser
+    );
+    $parser = new Example\Page\Parsers\KurenaiParser($pageFolder, $kurenai);
+    return $parser;
+});
+$injector->alias('Example\Page\Parsers\MetadataParser', 'Example\Page\Parsers\KurenaiParser');
+$injector->share('Example\Page\Parsers\KurenaiParser');
 
 return $injector;
