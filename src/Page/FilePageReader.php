@@ -5,10 +5,12 @@ namespace Example\Page;
 class FilePageReader implements PageReader
 {
     private $pageFolder;
+    private $parser;
 
-    public function __construct(string $pageFolder)
+    public function __construct(string $pageFolder, Parser $parser)
     {
         $this->pageFolder = $pageFolder;
+        $this->parser = $parser;
     }
 
     public function readBySlug(string $slug) : string
@@ -19,6 +21,6 @@ class FilePageReader implements PageReader
             throw new InvalidPageException($slug);
         }
 
-        return file_get_contents($path);
+        return $this->parser->parse(file_get_contents($path));
     }
 }

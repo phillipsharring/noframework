@@ -43,4 +43,12 @@ $injector->share('Example\Page\FilePageReader');
 $injector->alias('Example\Menu\MenuReader', 'Example\Menu\ArrayMenuReader');
 $injector->share('Example\Menu\ArrayMenuReader');
 
+$injector->delegate('Parsedown', function () use ($injector) {
+    $parsedown = new Parsedown();
+    return $parsedown;
+});
+
+$injector->alias('Example\Page\Parser', 'Example\Page\ParsedownParser');
+$injector->share('Example\Page\ParsedownParser');
+
 return $injector;
