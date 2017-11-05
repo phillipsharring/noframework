@@ -1,0 +1,21 @@
+{
+  "name": "philsown/noframework",
+  "description": "Following along with this: PatrickLouys/no-framework-tutorial for fun",
+  "keywords": ["php", "php7", "noframework"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Phillip Harrington",
+      "email": "phillip@phillipharrington.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Example\\": "src/"
+    }
+  }
+}
